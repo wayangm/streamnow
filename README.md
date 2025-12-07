@@ -295,4 +295,4 @@ pm2 restart streamnow
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/bangtutorial/streamflow/blob/main/LICENSE)
 
 ---
-© 2025 - [wayangm](https://)
+© 2025 - [wayangm](https://github.com/wayangm/streamnow)
