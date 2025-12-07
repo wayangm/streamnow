@@ -1,10 +1,8 @@
-![logo](https://github.com/user-attachments/assets/50231124-d546-43cb-9cf4-7a06a1dad5bd)
 
 # StreamNow v2.1: Fresh From The Oven 🔥
 
 StreamNow adalah aplikasi live streaming yang memungkinkan kamu melakukan live streaming ke berbagai platform seperti YouTube, Facebook, dan platform lainnya menggunakan protokol RTMP. Aplikasi ini dapat berjalan di VPS (Virtual Private Server) dan mendukung streaming ke banyak platform secara bersamaan.
 
-![Untitled-2](https://github.com/user-attachments/assets/3d7bb367-a1b2-43a5-839b-b6aa8dd5de90)
 
 ## ✨ Fitur Utama
 
@@ -30,7 +28,7 @@ StreamNow adalah aplikasi live streaming yang memungkinkan kamu melakukan live s
 Untuk instalasi otomatis, jalankan perintah berikut:
 
 ```bash
-curl -o install.sh https://raw.githubusercontent.com/bangtutorial/streamnow/main/install.sh && chmod +x install.sh && ./install.sh
+curl -o install.sh https://raw.githubusercontent.com/wayangm/streamnow/main/install.sh && chmod +x install.sh && ./install.sh
 ```
 
 ## 🔧 Manual Installation
@@ -73,7 +71,7 @@ sudo apt install git -y
 
 Clone repository:
 ```bash
-git clone https://github.com/bangtutorial/streamnow
+git clone https://github.com/wayangm/streamnow
 ```
 
 Masuk ke direktori project:
@@ -290,13 +288,11 @@ pm2 restart streamnow
 - Set `NODE_ENV=production`
 - Akses melalui HTTPS untuk cookie session
 
-## 💫 Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=bangtutorial/streamflow)](https://github.com/bangtutorial/streamflow/graphs/contributors)
 
 ## 📄 License
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/bangtutorial/streamflow/blob/main/LICENSE)
 
 ---
-© 2025 - [Bang Tutorial](https://youtube.com/bangtutorial)
+© 2025 - [wayangm](https://)
