@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Lengkap Proyek StreamNow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 2px solid #0055FF;
+            padding-bottom: 15px;
+        }
+        h2 {
+            color: #0055FF;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #666;
+            margin-top: 25px;
+        }
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 5px;
+        }
+        .highlight {
+            background-color: #e3f2fd;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 4px solid #0055FF;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .tech-item {
+            background-color: #e8eaf6;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analisis Lengkap Proyek StreamNow</h1>
+        
+        <div class="section">
+            <h2>1. Tujuan Utama Proyek StreamNow</h2>
+            <p>StreamNow adalah aplikasi live streaming berbasis web yang memungkinkan pengguna melakukan live streaming ke berbagai platform seperti YouTube, Facebook, Twitch, TikTok, Shopee Live, dan platform lainnya menggunakan protokol RTMP. Aplikasi ini dirancang untuk dijalankan di VPS (Virtual Private Server) dan menyediakan fitur-fitur untuk mengelola video dan streaming secara efektif.</p>
+        </div>
+        
+        <div class="section">
+            <h2>2. Struktur Arsitektur Aplikasi</h2>
+            <p>StreamNow menggunakan arsitektur berbasis Node.js dengan pola MVC (Model-View-Controller). Struktur direktori utama terdiri dari:</p>
+            <ul>
+                <li><strong>app.js</strong>: File utama aplikasi yang berisi konfigurasi Express, rute, middleware, dan inisialisasi</li>
+                <li><strong>models/</strong>: Berisi model-model data (User, Video, Stream, Playlist)</li>
+                <li><strong>views/</strong>: Template EJS untuk tampilan (dashboard, gallery, settings, dll)</li>
+                <li><strong>services/</strong>: Layanan utama (streaming, logging, monitoring, scheduler)</li>
+                <li><strong>middleware/</strong>: Middleware kustom untuk upload file</li>
+                <li><strong>utils/</strong>: Fungsi utilitas (storage, video processing, Google Drive integration)</li>
+                <li><strong>db/</strong>: File database SQLite dan konfigurasi database</li>
+                <li><strong>public/</strong>: File statis (CSS, JavaScript, gambar)</li>
+                <li><strong>package.json</strong>: Dependensi dan skrip proyek</li>
+            </ul>
+            <p>Aplikasi ini menggunakan SQLite sebagai database, EJS sebagai templating engine, dan Tailwind CSS untuk styling.</p>
+        </div>
+        
+        <div class="section">
+            <h2>3. Teknologi dan Dependensi yang Digunakan</h2>
+            <p>Proyek StreamNow menggunakan berbagai teknologi dan dependensi penting:</p>
+            
+            <h3>Backend Framework & Tools:</h3>
+            <ul>
+                <li>Node.js (v22 atau versi terbaru)</li>
+                <li>Express.js sebagai framework web</li>
+                <li>SQLite3 sebagai database</li>
+                <li>EJS sebagai templating engine</li>
+                <li>EJS-Mate untuk layout template</li>
+            </ul>
+            
+            <h3>Video Processing:</h3>
+            <ul>
+                <li>FFmpeg (melalui @ffmpeg-installer/ffmpeg dan fluent-ffmpeg)</li>
+                <li>get-video-duration untuk mendapatkan informasi durasi video</li>
+                <li>file-type untuk identifikasi tipe file</li>
+            </ul>
+            
+            <h3>Autentikasi & Security:</h3>
+            <ul>
+                <li>bcrypt untuk hashing password</li>
+                <li>CSRF protection</li>
+                <li>express-session untuk manajemen sesi</li>
+                <li>connect-sqlite3 untuk menyimpan sesi di SQLite</li>
+            </ul>
+            
+            <h3>File Upload & Transfer:</h3>
+            <ul>
+                <li>Multer untuk upload file</li>
+                <li>@tus/server dan @tus/file-store untuk upload chunked (resumable upload)</li>
+                <li>axios untuk HTTP client</li>
+                <li>fs-extra untuk operasi file system</li>
+            </ul>
+            
+            <h3>UI & Styling:</h3>
+            <ul>
+                <li>Tailwind CSS (melalui CDN)</li>
+                <li>Video.js untuk player video</li>
+                <li>Tabler Icons untuk icon</li>
+                <li>Google Fonts (Inter)</li>
+            </ul>
+            
+            <h3>Monitoring & Sistem:</h3>
+            <ul>
+                <li>systeminformation (si) untuk informasi sistem</li>
+                <li>os-utils untuk informasi OS</li>
+                <li>express-rate-limit untuk rate limiting</li>
+            </ul>
+            
+            <h3>Utilities:</h3>
+            <ul>
+                <li>dotenv untuk manajemen environment variable</li>
+                <li>uuid untuk generate ID unik</li>
+                <li>express-validator untuk validasi input</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>4. Analisis Fitur-fitur Utama Aplikasi</h2>
+            <p>StreamNow memiliki berbagai fitur komprehensif untuk kebutuhan live streaming:</p>
+            
+            <h3>Fitur Manajemen Pengguna:</h3>
+            <ul>
+                <li>Registrasi dan login pengguna</li>
+                <li>Sistem otentikasi berbasis sesi</li>
+                <li>Role-based access (admin/member)</li>
+                <li>Profile management dengan avatar</li>
+                <li>Ganti password dan pengaturan akun</li>
+                <li>Manajemen pengguna (hanya untuk admin)</li>
+            </ul>
+            
+            <h3>Fitur Live Streaming:</h3>
+            <ul>
+                <li>Multi-platform streaming (YouTube, Facebook, Twitch, TikTok, Shopee Live, dll)</li>
+                <li>Koneksi ke RTMP server</li>
+                <li>Live streaming dari file video yang di-upload</li>
+                <li>Live streaming dari playlist video</li>
+                <li>Penjadwalan streaming</li>
+                <li>Mode lanjutan (advanced mode) dengan pengaturan bitrate, resolusi, dan FPS</li>
+            </ul>
+            
+            <h3>Fitur Upload & Manajemen Video:</h3>
+            <ul>
+                <li>Upload video file ke server</li>
+                <li>Import video dari Google Drive</li>
+                <li>Generate thumbnail otomatis</li>
+                <li>Metadata extraction (durasi, resolusi, bitrate, fps)</li>
+                <li>Preview video sebelum streaming</li>
+                <li>Manajemen file video (rename, delete)</li>
+            </ul>
+            
+            <h3>Fitur Playlist:</h3>
+            <ul>
+                <li>Pembuatan playlist dari video yang tersedia</li>
+                <li>Mode acak (shuffle) dan urutan</li>
+                <li>Manajmen urutan video dalam playlist</li>
+                <li>Preview playlist</li>
+            </ul>
+            
+            <h3>Fitur Monitoring & Analisis:</h3>
+            <ul>
+                <li>Monitoring sistem (CPU, RAM, disk usage, network)</li>
+                <li>Dashboard real-time</li>
+                <li>Riwayat streaming</li>
+                <li>Statistik kinerja</li>
+            </ul>
+            
+            <h3>Fitur Penjadwalan & Otomatisasi:</h3>
+            <ul>
+                <li>Penjadwalan waktu streaming</li>
+                <li>Auto-stop berdasarkan durasi</li>
+                <li>Scheduler service untuk menjalankan stream terjadwal</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>5. Sistem Autentikasi dan Manajemen Pengguna</h2>
+            <p>Sistem autentikasi StreamNow menggunakan pendekatan berbasis sesi dengan SQLite sebagai penyimpanan sesi:</p>
+            
+            <h3>Proses Autentikasi:</h3>
+            <ul>
+                <li>Menggunakan express-session dengan SQLite sebagai penyimpanan</li>
+                <li>Password di-hash menggunakan bcrypt</li>
+                <li>Sistem role-based access (admin/member)</li>
+                <li>Status akun (aktif/tidak aktif)</li>
+            </ul>
+            
+            <h3>Fitur Manajemen Pengguna:</h3>
+            <ul>
+                <li>Registrasi akun baru dengan avatar</li>
+                <li>Login dengan validasi CSRF</li>
+                <li>Setup akun pertama kali (untuk admin pertama)</li>
+                <li>Reset password (melalui script reset-password.js)</li>
+                <li>Manajemen profil (username, avatar, password)</li>
+                <li>Admin dapat mengelola akun pengguna lain (ubah role, status, delete)</li>
+            </ul>
+            
+            <h3>Keamanan Autentikasi:</h3>
+            <ul>
+                <li>Rate limiting untuk login (maksimal 5 kali percobaan dalam 15 menit)</li>
+                <li>Delay 1 detik setelah setiap login attempt</li>
+                <li>Validasi input yang ketat</li>
+                <li>CSRF protection untuk formulir</li>
+                <li>Session timeout 24 jam</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>6. Sistem Streaming Video</h2>
+            <p>Sistem streaming dalam StreamNow dibangun untuk mendukung pengiriman video langsung ke berbagai platform RTMP:</p>
+            
+            <h3>Proses Streaming:</h3>
+            <ul>
+                <li>Menggunakan FFmpeg untuk encoding dan transmisi video</li>
+                <li>Mode sederhana (passthrough) dan mode lanjutan (re-encoding)</li>
+                <li>Mendukung berbagai resolusi (720p, 1080p, 1440p, 4K)</li>
+                <li>Pengaturan bitrate (2500kbps hingga 20000kbps)</li>
+                <li>Pengaturan FPS (30, 60, 120)</li>
+                <li>Dukungan orientasi (landscape/portrait)</li>
+            </ul>
+            
+            <h3>Fitur Streaming:</h3>
+            <ul>
+                <li>Loop video selama streaming</li>
+                <li>Preview video sebelum streaming</li>
+                <li>Playlist support (stream video secara berurutan atau acak)</li>
+                <li>Pengaturan platform dengan template RTMP</li>
+                <li>Monitoring status streaming (live/scheduled/offline)</li>
+            </ul>
+            
+            <h3>Implementasi Teknis:</h3>
+            <ul>
+                <li>Menggunakan child_process.spawn untuk menjalankan FFmpeg</li>
+                <li>Sistem retry otomatis jika FFmpeg crash</li>
+                <li>Manajemen proses FFmpeg dengan penanganan error</li>
+                <li>Logging detail selama proses streaming</li>
+                <li>Penyimpanan riwayat streaming ke database</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>7. Sistem Manajemen File dan Video</h2>
+            <p>Sistem manajemen file dan video dalam StreamNow mencakup berbagai fitur untuk penanganan file media:</p>
+            
+            <h3>Upload File:</h3>
+            <ul>
+                <li>Upload video file menggunakan Multer</li>
+                <li>Tipe file yang didukung: MP4, AVI, MOV</li>
+                <li>Penamaan unik untuk file yang di-upload</li>
+                <li>Validasi ukuran file (maksimal 10GB)</li>
+            </ul>
+            
+            <h3>Manajemen Video:</h3>
+            <ul>
+                <li>Generate thumbnail otomatis dari video</li>
+                <li>Ekstraksi metadata (durasi, resolusi, bitrate, fps)</li>
+                <li>Penyimpanan lokasi file dalam database</li>
+                <li>Dukungan import dari Google Drive</li>
+            </ul>
+            
+            <h3>Struktur Direktori:</h3>
+            <ul>
+                <li>public/uploads/videos/ - untuk file video</li>
+                <li>public/uploads/thumbnails/ - untuk thumbnail</li>
+                <li>public/uploads/avatars/ - untuk avatar pengguna</li>
+            </ul>
+            
+            <h3>Fitur File:</h3>
+            <ul>
+                <li>Penyimpanan file secara lokal di server</li>
+                <li>Penghapusan otomatis file ketika video dihapus</li>
+                <li>Dukungan untuk playlist video</li>
+                <li>Pratinjau video sebelum streaming</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>8. Sistem Penjadwalan dan Manajemen Stream</h2>
+            <p>Sistem penjadwalan dan manajemen stream merupakan fitur penting dalam StreamNow:</p>
+            
+            <h3>Fitur Penjadwalan:</h3>
+            <ul>
+                <li>Penjadwalan stream berdasarkan tanggal dan waktu</li>
+                <li>Pengaturan durasi streaming</li>
+                <li>Auto-start stream sesuai jadwal</li>
+                <li>Auto-stop stream setelah durasi berakhir</li>
+            </ul>
+            
+            <h3>Implementasi Scheduler:</h3>
+            <ul>
+                <li>Menggunakan schedulerService.js untuk manajemen penjadwalan</li>
+                <li>Cek berkala setiap 60 detik untuk stream terjadwal</li>
+                <li>Penggunaan setTimeout untuk auto-stop berdasarkan durasi</li>
+                <li>Penanganan stream yang melebihi durasi yang ditentukan</li>
+            </ul>
+            
+            <h3>Manajemen Stream:</h3>
+            <ul>
+                <li>Status stream (live, scheduled, offline)</li>
+                <li>Manajemen daftar stream dalam antarmuka</li>
+                <li>Fungsi start/stop/cancel untuk berbagai status</li>
+                <li>Riwayat streaming yang tersimpan dalam database</li>
+            </ul>
+            
+            <h3>Fitur Lain:</h3>
+            <ul>
+                <li>Penjadwalan ulang stream jika gagal</li>
+                <li>Manajemen stream aktif dan proses FFmpeg</li>
+                <li>Penyimpanan metadata stream (platform, pengaturan, dll)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>9. Sistem Database dan Model Data</h2>
+            <p>StreamNow menggunakan SQLite sebagai database dengan struktur tabel sebagai berikut:</p>
+            
+            <h3>Tabel-tabel Utama:</h3>
+            <ul>
+                <li><strong>users</strong>: Untuk menyimpan informasi pengguna (username, password hash, role, status, avatar, dll)</li>
+                <li><strong>videos</strong>: Untuk menyimpan informasi video (judul, path, thumbnail, metadata, dll)</li>
+                <li><strong>streams</strong>: Untuk menyimpan informasi stream (judul, RTMP URL, stream key, platform, status, dll)</li>
+                <li><strong>stream_history</strong>: Untuk menyimpan riwayat streaming</li>
+                <li><strong>playlists</strong>: Untuk menyimpan informasi playlist</li>
+                <li><strong>playlist_videos</strong>: Tabel junction untuk hubungan banyak-ke-banyak antara playlist dan video</li>
+                <li><strong>sessions</strong>: Tabel untuk menyimpan sesi pengguna (melalui connect-sqlite3)</li>
+            </ul>
+            
+            <h3>Model Data:</h3>
+            <ul>
+                <li><strong>User.js</strong>: Manajmen akun pengguna, termasuk registrasi, login, dan otorisasi</li>
+                <li><strong>Video.js</strong>: Manajemen file video, termasuk upload dan metadata</li>
+                <li><strong>Stream.js</strong>: Manajemen stream, termasuk status dan penjadwalan</li>
+                <li><strong>Playlist.js</strong>: Manajemen playlist video</li>
+            </ul>
+            
+            <h3>Fitur Database:</h3>
+            <ul>
+                <li>Relasi antar tabel (videos ke users, streams ke videos/users, dll)</li>
+                <li>Indeks untuk performa pencarian</li>
+                <li>Validasi konsistensi data</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>10. Sistem Logging dan Monitoring</h2>
+            <p>Sistem logging dan monitoring dalam StreamNow mencakup dua aspek penting:</p>
+            
+            <h3>Sistem Logging:</h3>
+            <ul>
+                <li>File logger.js yang mencatat semua output console ke file log</li>
+                <li>Penyimpanan log di folder `logs/app.log`</li>
+                <li>Penanganan berbagai level log (info, warn, error, debug)</li>
+                <li>Logging unhandled rejection dan uncaught exception</li>
+            </ul>
+            
+            <h3>Sistem Monitoring:</h3>
+            <ul>
+                <li>Penggunaan library `systeminformation` (si) untuk mendapatkan data sistem</li>
+                <li>Monitoring CPU, RAM, disk usage, dan network</li>
+                <li>Tampilan real-time di dashboard admin</li>
+                <li>Penggunaan fungsi `getSystemStats()` di services/systemMonitor.js</li>
+                <li>Tampilan data sistem dalam bentuk grafik dan indikator</li>
+            </ul>
+            
+            <h3>Fitur Monitoring:</h3>
+            <ul>
+                <li>Pemantauan sumber daya server secara real-time</li>
+                <li>Penghitungan kecepatan jaringan (upload/download)</li>
+                <li>Informasi kapasitas dan penggunaan disk</li>
+                <li>Tampilan dalam tampilan dashboard</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>11. UI/UX dan Tampilan Aplikasi</h2>
+            <p>UI/UX StreamNow dirancang dengan pendekatan modern dan fokus pada pengalaman pengguna:</p>
+            
+            <h3>Desain Tampilan:</h3>
+            <ul>
+                <li>Menggunakan Tailwind CSS untuk styling</li>
+                <li>Tema gelap (dark theme) sebagai default</li>
+                <li>Responsif untuk berbagai ukuran layar (mobile, tablet, desktop)</li>
+                <li>Penggunaan Tabler Icons untuk ikon-ikon UI</li>
+                <li>Penggunaan font Inter untuk keterbacaan</li>
+            </ul>
+            
+            <h3>Komponen UI:</h3>
+            <ul>
+                <li>Sidebar navigasi dengan ikon dan tooltip</li>
+                <li>Dashboard utama dengan indikator sistem</li>
+                <li>Modal untuk operasi penting (buat stream, edit, dll)</li>
+                <li>Formulir dengan validasi dan feedback</li>
+                <li>Tabel dan card view untuk menampilkan data</li>
+                <li>Sistem notifikasi dan toast</li>
+            </ul>
+            
+            <h3>Tampilan Halaman:</h3>
+            <ul>
+                <li>Login dan setup akun</li>
+                <li>Dashboard streaming</li>
+                <li>Galery video</li>
+                <li>Manajemen playlist</li>
+                <li>Riwayat streaming</li>
+                <li>Pengaturan pengguna</li>
+                <li>Manajemen pengguna (untuk admin)</li>
+            </ul>
+            
+            <h3>Fitur UI/UX:</h3>
+            <ul>
+                <li>Preview video langsung sebelum streaming</li>
+                <li>Drag and drop untuk playlist (secara konseptual)</li>
+                <li>Tampilan real-time status streaming</li>
+                <li>Sistem pencarian dan filter</li>
+                <li>Tombol aksi context-aware</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>12. Cara Instalasi dan Deployment</h2>
+            <p>StreamNow menyediakan beberapa metode instalasi dan deployment:</p>
+            
+            <h3>Instalasi Otomatis:</h3>
+            <ul>
+                <li>Script `install.sh` untuk instalasi otomatis di server</li>
+                <li>Mengupdate sistem, menginstal Node.js, FFmpeg, Git</li>
+                <li>Mengkloning repositori dan menginstal dependensi</li>
+                <li>Membuat secret untuk session</li>
+                <li>Mengkonfigurasi firewall dan PM2</li>
+            </ul>
+            
+            <h3>Instalasi Manual:</h3>
+            <ul>
+                <li>Instalasi Node.js (versi 20 atau lebih baru)</li>
+                <li>Instalasi FFmpeg untuk pemrosesan video</li>
+                <li>Instalasi Git</li>
+                <li>Clone repositori: `git clone https://github.com/bangtutorial/streamnow`</li>
+                <li>Install dependensi: `npm install`</li>
+                <li>Generate secret: `node generate-secret.js`</li>
+                <li>Jalankan aplikasi: `npm run dev` atau `pm2 start app.js`</li>
+            </ul>
+            
+            <h3>Docker Deployment:</h3>
+            <ul>
+                <li>Disediakan Dockerfile dan docker-compose.yml</li>
+                <li>Build image dengan: `docker-compose up --build`</li>
+                <li>Port 7575 diakses melalui localhost:7575</li>
+                <li>Volume mounting untuk persistensi data</li>
+            </ul>
+            
+            <h3>Konfigurasi:</h3>
+            <ul>
+                <li>File `.env` untuk konfigurasi environment (PORT, SESSION_SECRET)</li>
+                <li>Port default 7575 (dapat diubah di .env)</li>
+                <li>Konfigurasi timezone server (disarankan Asia/Jakarta)</li>
+                <li>Konfigurasi firewall untuk membuka port SSH dan aplikasi</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>13. Keamanan dan Best Practice</h2>
+            <p>StreamNow menerapkan beberapa aspek keamanan dan best practice:</p>
+            
+            <h3>Keamanan Autentikasi:</h3>
+            <ul>
+                <li>Password di-hash menggunakan bcrypt dengan salt 10 putaran</li>
+                <li>CSRF protection untuk formulir penting</li>
+                <li>Rate limiting untuk login (maksimal 5 kali percobaan dalam 15 menit)</li>
+                <li>Session timeout 24 jam</li>
+                <li>Tidak menyimpan password dalam bentuk plain text</li>
+            </ul>
+            
+            <h3>Keamanan Input:</h3>
+            <ul>
+                <li>Validasi input menggunakan express-validator</li>
+                <li>Sanitasi data sebelum disimpan ke database</li>
+                <li>Validasi tipe file dan ukuran pada upload</li>
+            </ul>
+            
+            <h3>Keamanan Sistem:</h3>
+            <ul>
+                <li>Tidak menyimpan file .env di repository (ada di .gitignore)</li>
+                <li>Menggunakan secure session cookie dalam mode production</li>
+                <li>Validasi file yang di-upload</li>
+                <li>Penanganan error yang tidak bocor informasi sensitif</li>
+            </ul>
+            
+            <h3>Best Practice:</h3>
+            <ul>
+                <li>Menggunakan UUID untuk ID unik</li>
+                <li>Penamaan file unik untuk mencegah konflik</li>
+                <li>Sistem logging untuk debugging</li>
+                <li>Error handling komprehensif</li>
+                <li>Menggunakan Promise dan async/await dengan benar</li>
+                <li>Struktur kode modular dengan MVC pattern</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>14. Ringkasan Keseluruhan Proyek</h2>
+            <p>StreamNow adalah aplikasi live streaming yang komprehensif dan dirancang untuk dijalankan di VPS. Aplikasi ini menyediakan solusi end-to-end untuk streaming video ke berbagai platform RTMP seperti YouTube, Facebook, Twitch, dan lainnya.</p>
+            
+            <div class="highlight">
+                <h3>Keunggulan Utama:</h3>
+                <ol>
+                    <li><strong>Multi-platform Streaming</strong>: Mendukung streaming ke berbagai platform populer</li>
+                    <li><strong>Manajemen Video Lengkap</strong>: Upload, import Google Drive, playlist, dan metadata</li>
+                    <li><strong>Sistem Penjadwalan</strong>: Fitur penjadwalan dan auto-stop untuk streaming otomatis</li>
+                    <li><strong>UI/UX Responsif</strong>: Tampilan modern dan responsif untuk berbagai perangkat</li>
+                    <li><strong>Monitoring Sistem</strong>: Dashboard real-time untuk memantau sumber daya server</li>
+                    <li><strong>Keamanan</strong>: Implementasi keamanan yang baik untuk otentikasi dan data</li>
+                </ol>
+            </div>
+            
+            <h3>Arsitektur:</h3>
+            <ul>
+                <li>Backend: Node.js + Express.js</li>
+                <li>Database: SQLite</li>
+                <li>Frontend: EJS template + Tailwind CSS + JavaScript</li>
+                <li>Video Processing: FFmpeg</li>
+            </ul>
+            
+            <h3>Fitur-fitur Kunci:</h3>
+            <ul>
+                <li>Live streaming ke berbagai platform RTMP</li>
+                <li>Upload dan manajemen video</li>
+                <li>Penjadwalan streaming</li>
+                <li>Playlist video</li>
+                <li>Monitoring sistem real-time</li>
+                <li>Multi-user dengan role-based access</li>
+                <li>Import dari Google Drive</li>
+                <li>Mode advanced dan simple untuk streaming</li>
+            </ul>
+            
+            <p>Aplikasi ini sangat cocok untuk pengguna yang membutuhkan solusi streaming yang handal dan dapat dijalankan di server pribadi, dengan tampilan yang modern dan fitur-fitur lengkap untuk manajemen streaming.</p>
+        </div>
+    </div>
+</body>
+</html>
